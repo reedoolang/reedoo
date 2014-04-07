@@ -17,3 +17,5 @@ Reedoo runs off of the Reedoo Virtual Machine. Reedoo is written in RPython, a s
 Reedoo source code is stored in .rd files. The .rd files are converted into .rda files by the Reedoo Compiler. Then the .rda files are passed to the Reedoo Assembler where they are converted into .rdc files, which can be executed by the Reedoo Virtual Machine.
 
 For more information about Reedoo, in its current state go to: https://www.reedoo.org
+
+Reedoo will be open source once it is complete enough for an alpha release. Until then this repository will be empty. To find out when Reedoo will be available go to: https://www.reedoo.org
