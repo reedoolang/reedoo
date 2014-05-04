@@ -12,10 +12,10 @@ The source code of the Reedoo Programming Langauge. Reedoo is a brand new kind o
 So how does Reedoo work?
 ========================
 
-Reedoo runs off of the Reedoo Virtual Machine. Reedoo is written in RPython, a subset of the Python language that can be converted into C source code and compiled to provide excellent performance with ease. The hope is that Reedoo will be one of the fastest languages around when it's finished.
+Reedoo programs are executed using the Reedoo Virtual Machine. The Reedoo language is implemented in C++11. Reedoo was originally implemented in RPython but was rewritten in C++ due to the fact the RPython has almost no documentation which made it difficult to use. Also, by using C++11 instead we can compile Reedoo with just a C++ compiler that supports the C++11 standard. Since Reedoo is written in C++11 the hope is that Reedoo will be one of the fastest languages around when it's ready.
 
 Reedoo source code is stored in .rd files. The .rd files are converted into .rda files by the Reedoo Compiler. Then the .rda files are passed to the Reedoo Assembler where they are converted into .rdc files, which can be executed by the Reedoo Virtual Machine.
 
-For more information about Reedoo, in its current state go to: https://www.reedoo.org
+For more information about Reedoo, in its current state go to: http://www.reedoo.org
 
-Reedoo will be open source once it is complete enough for an alpha release. Until then this repository will be empty. To find out when Reedoo will be available go to: https://www.reedoo.org
+Reedoo will be open source once it is complete enough for an alpha release. Until then this repository will be empty. To find out when Reedoo will be available go to: http://www.reedoo.org
