@@ -1,5 +1,5 @@
-Some stuff about Reedoo
-=======================
+What is Reedoo?
+===============
 
 The source code of the Reedoo Programming Langauge. Reedoo is a brand new kind of programming language that aims to be everything that great language should be. The aims of Reedoo are:
   1. A language that is fast, safe and secure
@@ -8,6 +8,15 @@ The source code of the Reedoo Programming Langauge. Reedoo is a brand new kind o
   4. Have a large standard library
   5. Be open source to allow anyone to help or even just see how it works.
 
+Reedoo's Syntax
+===============
+Reedoo's syntax has been influenced by a number of other popular and widely used programming languages. Reedoo follows the conventional approach to separating code blocks using curly-brackets. ( { } )
+
+Variables in Reedoo are prepended with a percent-sign ( % ). Just like PHP prepends variables with the dollar-sign ( $ ).
+
+Unlike PHP however, semi-colons at the end of statements are optional. If semi-colons are left out then the Reedoo Interpreter's Lexer will inject semi-colons at each newline it sees in the source file.
+
+Reedoo can also evaluate expressions containing brackets, addition, subtraction, division and multiplication. There will be a mod() function for modulus calculations as the percent-sign is reserved for variable names.
 
 So how does Reedoo work?
 ========================
