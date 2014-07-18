@@ -150,6 +150,9 @@ string rdo_eval(string expr) {
 	bool to_inverse = 0;
 	bool do_calc = 0;
 
+	/* First we loop through the expression and identify each of the characters in the expression
+	   using the rdo_expr_item_type() function. We also have some basic error handling. When we identify 
+	   a character and form a number we push the number or opperator or bracket onto the rdo_num_stack. */
 	for (i = 0; i < expr.length();i++) {
 
 		if (!rdo_ws(expr[i])) {
@@ -185,7 +188,6 @@ string rdo_eval(string expr) {
 				}
 			
 			} else {
-				//cout << expr[i] << endl;
 				cout << "Invalid character in expression" << endl;
 				exit(0);
 			}
@@ -200,7 +202,8 @@ string rdo_eval(string expr) {
 		}
 
 	}
-
+	/* There should be an even number of brackets. bcount % 2 should always equal 0. If it doesn't
+	   then we have an uneven number of brackets and the expression won't evaluate correctly. */
 	if (bcount % 2 != 0) {
 		cout << "Extra / Missing parens." << endl;
 		exit(0);
@@ -208,6 +211,7 @@ string rdo_eval(string expr) {
 		bcount /= 2;
 	}
 
+	/* Loop through and count the number of left brackets. */
 	for (i = 0; i < rdo_num_stack.size();i++) {
 		if (rdo_num_stack[i] == "(") {
 			current_b++;
@@ -225,7 +229,6 @@ string rdo_eval(string expr) {
 			got_diff = 1;
 		}
 	}
-
 
 	for (i = depth; i < depth+diff; i++) {
 
