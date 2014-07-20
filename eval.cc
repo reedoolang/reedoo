@@ -4,19 +4,15 @@
 /* This is my hand-made interpreter for the Reedoo Programming Language,
    I chose not to use something like lex and yacc because I didn't want to
    have to learn a new tool and be limited by what that tool can do, for
-   example yacc isn't good at producing informative errors. */
+   example yacc isn't good at producing informative errors. I also enjoy the
+   challenge of writting something from scratch and seeing it come to life when 
+   its finished. */
 
 #include <iostream>
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <vector>
-#include <cstdlib>
-#include <cstdio>
-#include <algorithm>
-#include <functional>
 
-/* Include our eval.h header file */
+
 #include "eval.h"
 
 /* Global variables */
@@ -28,7 +24,6 @@ int opp_count = 0;
 
 using namespace std;
 
-/* Check whether the char c is a space or not */
 bool rdo_ws(char c) {
 	if (c != ' ')
 		return 0;
@@ -36,10 +31,6 @@ bool rdo_ws(char c) {
 		return 1;
 }
 
-/* Identify each character in the expression using this function.
-   n = number
-   o = opperator
-   b = bracket */
 char rdo_expr_item_type(char c) {
 
 	switch(c) {
@@ -72,7 +63,6 @@ char rdo_expr_item_type(char c) {
 
 }
 
-/* Convert each character literal into a 1 character long string */
 string rdo_opp_to_string(char opp) {
 
 	string o = "";
@@ -102,8 +92,6 @@ string rdo_opp_to_string(char opp) {
 
 }
 
-/* Returns true if the string provided isn't an opperator. This is because if it's not an
-   opperator we assume it's a number. */
 bool rdo_is_num(string is_num) {
 	if (is_num == "+" or
 		is_num == "-" or
@@ -116,15 +104,11 @@ bool rdo_is_num(string is_num) {
 	return 1;
 }
 
-/* Count the number of opperators so that we know when to remove the brackets. */
 void rdo_count_opp(bool to_count_or_not) {
 	if (to_count_or_not == 1)
 		opp_count++;
 }
 
-/* This function actually evaluates each expression. The above functions are helper functions
-   that provide functionality to the rdo_eval function. The rdo_eval function is the function
-   that gets included in the main reedoo.cc file. */
 string rdo_eval(string expr) {
 
 	string result;
@@ -150,9 +134,6 @@ string rdo_eval(string expr) {
 	bool to_inverse = 0;
 	bool do_calc = 0;
 
-	/* First we loop through the expression and identify each of the characters in the expression
-	   using the rdo_expr_item_type() function. We also have some basic error handling. When we identify 
-	   a character and form a number we push the number or opperator or bracket onto the rdo_num_stack. */
 	for (i = 0; i < expr.length();i++) {
 
 		if (!rdo_ws(expr[i])) {
@@ -188,6 +169,7 @@ string rdo_eval(string expr) {
 				}
 			
 			} else {
+				//cout << expr[i] << endl;
 				cout << "Invalid character in expression" << endl;
 				exit(0);
 			}
@@ -202,8 +184,7 @@ string rdo_eval(string expr) {
 		}
 
 	}
-	/* There should be an even number of brackets. bcount % 2 should always equal 0. If it doesn't
-	   then we have an uneven number of brackets and the expression won't evaluate correctly. */
+
 	if (bcount % 2 != 0) {
 		cout << "Extra / Missing parens." << endl;
 		exit(0);
@@ -211,7 +192,6 @@ string rdo_eval(string expr) {
 		bcount /= 2;
 	}
 
-	/* Loop through and count the number of left brackets. */
 	for (i = 0; i < rdo_num_stack.size();i++) {
 		if (rdo_num_stack[i] == "(") {
 			current_b++;
@@ -229,6 +209,7 @@ string rdo_eval(string expr) {
 			got_diff = 1;
 		}
 	}
+
 
 	for (i = depth; i < depth+diff; i++) {
 
@@ -447,6 +428,7 @@ string rdo_eval(string expr) {
 
 	for (i = 0; i < rdo_num_stack.size();i++) {
 		expr += rdo_num_stack[i];
+		//cout << rdo_num_stack[i];
 	}
 
 	expr = "";
@@ -461,11 +443,16 @@ string rdo_eval(string expr) {
 	}
     
     result = rdo_num_stack[depth+1];
+	//cout << result << endl;
 
 	rdo_num_stack.clear();
+	//cout << opp_count << endl;
 	if (opp_count > 0)
+		//return "";
+		//return expr;
 		return rdo_eval(expr);
 	else
 		expr = to_string(stoi(result));
+		//return "";
 		return expr;
 }
