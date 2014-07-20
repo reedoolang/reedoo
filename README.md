@@ -35,7 +35,7 @@ print %test
 ```
 
 Reedoo also has 'if' statements, if statements in Reedoo are inspired by 'if' statements in C-like, languages. Reedoo's 'if' statements are most similar to those in Go.
-```go
+```perl
 if %test == "This is a variable" {
 	
 	print "The condition is true."
