@@ -18,12 +18,37 @@ Unlike PHP however, semi-colons at the end of statements are optional. If semi-c
 
 Reedoo can also evaluate expressions containing brackets, addition, subtraction, division and multiplication. There will be a mod() function for modulus calculations as the percent-sign is reserved for variable names.
 
+A simple walkthrough
+====================
+
+To print text in Reedoo you can use the 'print' keyword. Here's an example,
+```perl
+print "Hello World"
+```
+
+In Reedoo semi-colons are optional as they are injected by the lexer if they're missing.
+
+Assigning variables in Reedoo is similar to PHP, just change the dollar-sign to a percent-sign. Here's an example,
+```perl
+%test = "This is a variable"
+print %test
+```
+
+Reedoo also has 'if' statements, if statements in Reedoo are inspired by 'if' statements in C-like, languages. Reedoo's 'if' statements are most similar to those in Go.
+```go
+if %test == "This is a variable" {
+	
+	print "The condition is true."
+
+}
+```
+
+Thanks to semi-colon injection, as in Go, the opening curly bracket must be on the same line as the if keyword and the condition. If statements, since they are statements can also end with a semi-colon, but like other statements it's optional.
+
 So how does Reedoo work?
 ========================
 
 Reedoo programs are executed using the Reedoo Virtual Machine. The Reedoo language is implemented in C++11. Reedoo was originally implemented in RPython but was rewritten in C++ due to the fact the RPython has almost no documentation which made it difficult to use. Also, by using C++11 instead we can compile Reedoo with just a C++ compiler that supports the C++11 standard. Since Reedoo is written in C++11 the hope is that Reedoo will be one of the fastest languages around when it's ready.
-
-Reedoo source code is stored in .rd files. The .rd files are converted into .rda files by the Reedoo Compiler. Then the .rda files are passed to the Reedoo Assembler where they are converted into .rdc files, which can be executed by the Reedoo Virtual Machine.
 
 For more information about Reedoo, in its current state go to: http://www.reedoo.org
 
