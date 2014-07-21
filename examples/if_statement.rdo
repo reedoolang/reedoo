@@ -6,17 +6,15 @@
 # are statements they can also end with a semi-colon, but that's optional.
 
 if %test == 10 {
-
 	print "test is 10"
-
 }
 
 if "Some string" == "Hello" {
-
 	print "Wrong"
-	
 } else {
-
 	print "Correct"
-
 };
+
+if "Hello World" == "Hello World" { print "This also works!" }
+
+if "Hello World" == "Hello World" { print "So does this!" };
