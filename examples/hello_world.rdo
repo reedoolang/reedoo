@@ -1,0 +1,5 @@
+# Below is an example of the Reedoo, Hello World, program. As you can see,
+# Reedoo statements don't require semi-colons. Semi-colons are optional, so
+# print "Hello World"; would work too.
+
+print "Hello World"

@@ -1,0 +1,13 @@
+# Below is an example of how variables are created in Reedoo,
+# Reedoo supports dynamic typing, so %test can be a number at
+# the beginning of the program and a string at the end of it.
+# Variables are prepended with percent-signs, just like PHP prepends
+# variable names with the dollar-sign.
+
+%test = 10 + 5 * -(6 * 3)
+
+print %test # Prints -80
+
+%test = "Hello World"
+
+print %test # Prints "Hello World"

@@ -1,0 +1,7 @@
+# Example of single-line comments in Reedoo
+# When the parser sees a # symbol it assumes
+# that the rest of the line is a comment. This
+# shows how comments work. You can even include 
+# variables, if statements, print statements etc ...
+# in a comment an Reedoo will ignore everything when it 
+# parses the file.
