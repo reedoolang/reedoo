@@ -1,12 +1,7 @@
 /* The Reedoo Language Interpreter */
 /* (c) 2014 Francis McNamee. All Rights Reserved. */
 /* www.reedoo.org */
-/* This is my hand-made interpreter for the Reedoo Programming Language,
-   I chose not to use something like lex and yacc because I didn't want to
-   have to learn a new tool and be limited by what that tool can do, for
-   example yacc isn't good at producing informative errors. I also enjoy the
-   challenge of writting something from scratch and seeing it come to life when 
-   its finished. */
+
 
 #include <iostream>
 #include <string>
@@ -18,6 +13,7 @@
 #include "parser.h"
 #include "eval.h"
 #include "io.h"
+#include "cond.h"
 
 /* Global Variables */
 /* Not all of these are actual "keywords" that can be used in programs.
@@ -44,7 +40,7 @@ string load_program(string filename) {
 
   string filedata;
 
-    ifstream rdfile(filename);
+    ifstream rdfile(filename,ios::binary);
     /* We check to see whether or not we can open the file. This doesn't tell use whether
        the file exists because permissions could also prevent us being able to open the file. */
     if (!rdfile) {

@@ -3,8 +3,11 @@ CXXFLAGS  = -std=c++11
 
 all: r
 
-r: reedoo.o lexer.o parser.o variables.o eval.o io.o
-	$(CC)	$(CXXFLAGS)	reedoo.o	lexer.o 	parser.o 	variables.o		eval.o 	io.o	-o	r
+r: reedoo.o lexer.o parser.o variables.o eval.o io.o cond.o
+	$(CC)	$(CXXFLAGS)	reedoo.o	lexer.o 	parser.o 	variables.o		eval.o 	io.o	cond.o	-o	r
+
+cond.o: cond.cc cond.h
+	$(CC)	$(CXXFLAGS) -c	cond.cc
 
 io.o: io.cc io.h
 	$(CC)	$(CXXFLAGS) -c	io.cc

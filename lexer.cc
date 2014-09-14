@@ -1,13 +1,11 @@
 /* The Reedoo Language Interpreter */
 /* (c) 2014 Francis McNamee. All Rights Reserved. */
 /* www.reedoo.org */
-/* This is my hand-made interpreter for the Reedoo Programming Language,
-   I chose not to use something like lex and yacc because I didn't want to
-   have to learn a new tool and be limited by what that tool can do, for
-   example yacc isn't good at producing informative errors. */
+
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <vector>
 
 #include "lexer.h"
@@ -27,7 +25,7 @@ using namespace std;
    They are called keywords because they are reserved, either because they
    are specified as keywords in the grammar or because they are reserved by
    the interpreter for internal use. */
-std::string reserved[12] = { "print", "string", "sc", "variable", "eq", "undefined", "nl", "num", "expr", "eof", "if", "else" };
+std::string reserved[14] = { "print", "string", "sc", "variable", "eq", "undefined", "nl", "num", "expr", "eof", "if", "else", "and", "or" };
 /* We store lex_tokens in a vector, we could use an array but specifying an arrays
    size at runtime is technically impossible and the work arounds are a pain. */
 std::vector<std::string> lnums;
@@ -51,6 +49,7 @@ bool rdo_is_reserved(string tok) {
 vector<string> lex(string prog) {
   std::vector<std::string> lex_tokens;
   int i = 0;
+  int start_ce = 0;
   string tok = "";
   string n = "";
   string expr = "";
@@ -61,8 +60,11 @@ vector<string> lex(string prog) {
   bool sl_comment_started = 0;
   bool unquoted_str_fnd = false;
   bool block_started = false;
+  bool condstarted = false;
   string s = "";
   string v = "";
+  string ce = "";
+  string condition = "";
 
   for(i = 0; i < prog.size(); ++i) {
     tok += prog[i];
@@ -130,9 +132,11 @@ vector<string> lex(string prog) {
       } else if (sl_comment_started == 1) {
         if (tok == "\n") {
           sl_comment_started = 0;
+          if (lex_tokens.size() != 0) {
           if (lex_tokens.back() != "sc") {
             lex_tokens.push_back(reserved[2]); 
           } 
+        }
         }
         tok = "";
       } else if (tok == "\r") {
@@ -197,24 +201,63 @@ vector<string> lex(string prog) {
           tok = "";
           n = "";
         }
-      } else if (tok == "=") {
+      } else if (tok == "=" and state == 0) {
         if (lex_tokens.back() == "eq") {
-          lex_tokens.back() = "eqeq";
+          if (condstarted == false) {
+            lex_tokens.back() = "eqeq";
+          } else {
+            condition += "eqeq ";
+            lex_tokens.pop_back();
+          } 
         } else {
         lex_tokens.push_back("eq");
         }
         tok = "";
+      } else if (tok == reserved[12] and state == 0) {
+          if (condstarted == false) {
+            lex_tokens.push_back("and");
+          } else {
+            condition += "and ";
+          } 
+        tok = "";
+      } else if (tok == reserved[13] and state == 0) {
+          if (condstarted == false) {
+            lex_tokens.push_back("or");
+          } else {
+            condition += "or ";
+          }
+        tok = "";
       } else if (tok == reserved[10]) {
         lex_tokens.push_back(reserved[10]);
+        condstarted = true;
+        condition = "cond:";
         tok = "";
       } else if (tok == reserved[11]) {
         lex_tokens.push_back(reserved[11]);
         tok = "";
       } else if (tok == "{") {
         block_started = true;
+        condstarted = false;
+        lex_tokens.push_back(condition);
         lex_tokens.push_back("opencb");
         tok = "";
       } else if (tok == "}") {
+        if (expr != "" and is_expr == 1) {
+            lex_tokens.push_back(reserved[8] + ":(" + expr + ")");
+          } else if (n != "" and is_expr == 0) {
+            lex_tokens.push_back(reserved[7] + ":" + expr);
+          }
+          if (v != "") {
+            lex_tokens.push_back(reserved[3] + ":\"" + v + "\"");
+          }
+          v = "";
+        var_started = 0;
+        n = "";
+        expr = "";
+        is_expr = 0;
+        if (lex_tokens.back() != "opencb" and lex_tokens.back() != "sc") {
+          lex_tokens.push_back("sc");
+        }
         lex_tokens.push_back("closecb");
         block_started = false;
         tok = "";
@@ -222,12 +265,16 @@ vector<string> lex(string prog) {
         lex_tokens.push_back(reserved[0]);
         tok = "";
       } else if (tok == "\"") {
-        
+         
         if (state == 0) {
           state = 1;
         } else if (state == 1) {
           state = 0;
-          lex_tokens.push_back(reserved[1] + ":" + s + "\"");
+          if (condstarted == false) {
+            lex_tokens.push_back(reserved[1] + ":" + s + "\"");
+          } else {
+            condition += reserved[1] + ":" + s + "\" ";
+          }
           s = "";
           tok = "";
         }
@@ -241,7 +288,7 @@ vector<string> lex(string prog) {
       }
       
   }
-
+  //cout << lex_tokens.size() << endl;
   for (i = 0; i < lex_tokens.size();i++) {
     //cout << lex_tokens[i] << endl;
   }

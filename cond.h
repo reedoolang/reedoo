@@ -4,5 +4,4 @@
 
 
 /* Function Declarations */
-
-void doPRINT(std::string toPrint);
+bool eval_cond(std::string cond);
