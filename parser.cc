@@ -28,6 +28,9 @@ void parse(vector<string> tokens) {
   int i = 0;
   bool cond = false;
   int cond_result = 2;
+  string cond_chunk = "";
+  string varname = "";
+  string new_cond = "";
 
   while (i < tokens.size()) {
     
@@ -55,22 +58,40 @@ void parse(vector<string> tokens) {
       doASSIGN(tokens[i],tokens[i+2]);
       i+=4;
     } else if (tokens[i] + " " + tokens[i+1].substr(0,4) + " " + tokens[i+2] == "if cond opencb") {
-      //cout << eval_cond(tokens[i+1].substr(5)) << endl;
-        cond_result = eval_cond(tokens[i+1].substr(5));
-        if (eval_cond(tokens[i+1].substr(5))) {
+        cond_chunk = tokens[i+1].substr(5);
+        new_cond = "";
+        for (int it = 0; it < cond_chunk.size(); it++) {
+          if (cond_chunk[it] == ' ') {
+            varname = cond_chunk.substr(0,it);
+
+            if (varname.size() > 8 and varname[10] == '%') {
+              varname = goGETVAR(varname);
+            }
+            new_cond += varname + " ";
+            cond_chunk = cond_chunk.substr(it+1);
+            it = 0;
+          }
+        }
+        //cout << new_cond << endl;
+        //cout << tokens[i+1].substr(5) << endl;
+        cond_result = eval_cond(new_cond);
+
+        if (eval_cond(new_cond)) {
             // Run true block
             //cout << "TOKENS: " << tokens[i+1].substr(5) << eval_cond(tokens[i+1].substr(5)) << endl;
-            //i+=3;
+            i+=1;
         } else {
             
             //cout << "TOKENS: " << tokens[i+1].substr(5) << eval_cond(tokens[i+1].substr(5)) << endl;
             while (tokens[i] != "closecb") {
               i++;
             }
-            i++;
+
+        i++;
+
 
         }
-        i+=3;
+        i+=2;
     } else if (tokens[i] == "closecb") {
         if (tokens[i+1] == "else") {
           i+=1;

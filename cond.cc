@@ -9,6 +9,7 @@
 
 
 #include "cond.h"
+#include "variables.h"
 
 using namespace std;
 
@@ -39,12 +40,6 @@ bool eval_cond(string cond) {
 			term += cond[i];	
 		}
 	}
-
-	//cout << endl << "--------" << endl;
-	for (int i = 0; i < terms.size(); i++) {
-	//	cout << terms[i] << endl;
-	}
-	//cout << "--------" << endl;
 
 	for (int i = 0; i < terms.size(); i++) {
 

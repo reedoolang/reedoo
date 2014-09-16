@@ -68,6 +68,7 @@ vector<string> lex(string prog) {
 
   for(i = 0; i < prog.size(); ++i) {
     tok += prog[i];
+    
       if (tok == " " and state == 0) {
         tok = "";
         if (n != "") {
@@ -75,10 +76,11 @@ vector<string> lex(string prog) {
           //lex_tokens.push_back(reserved[7] + ":" + n);
         }
         n = "";
-        if (v != "") {
+        if (v != "" and condstarted == false) {
           lex_tokens.push_back(reserved[3] + ":\"" + v + "\"");
+          v = "";
         }
-        v = "";
+        
         var_started = 0;
       } else if (tok == ";" and state == 0) {
         tok = "";
@@ -206,8 +208,15 @@ vector<string> lex(string prog) {
           if (condstarted == false) {
             lex_tokens.back() = "eqeq";
           } else {
+            
+            if (v != "") {
+              condition += "variable:\"" + v + "\" ";
+              v = "";
+            }
+            var_started = 0;            
             condition += "eqeq ";
             lex_tokens.pop_back();
+
           } 
         } else {
         lex_tokens.push_back("eq");
@@ -238,9 +247,17 @@ vector<string> lex(string prog) {
       } else if (tok == "{") {
         block_started = true;
         condstarted = false;
-        lex_tokens.push_back(condition);
+        if (v != "") {
+          condition += "variable:\"" + v + "\" ";
+          v = "";
+        }
+        var_started = 0;
+        if (condition != "") {
+          lex_tokens.push_back(condition);
+        }
         lex_tokens.push_back("opencb");
         tok = "";
+        condition = "";
       } else if (tok == "}") {
         if (expr != "" and is_expr == 1) {
             lex_tokens.push_back(reserved[8] + ":(" + expr + ")");
@@ -265,7 +282,7 @@ vector<string> lex(string prog) {
         lex_tokens.push_back(reserved[0]);
         tok = "";
       } else if (tok == "\"") {
-         
+
         if (state == 0) {
           state = 1;
         } else if (state == 1) {
@@ -279,8 +296,16 @@ vector<string> lex(string prog) {
           tok = "";
         }
       } else if (state == 1) {
-        s += tok;
-        tok = "";
+        if (tok == "\"\"") {
+          s = "\"";
+          lex_tokens.push_back(reserved[1] + ":" + s + "\"");
+          state = 0;
+          s = "";
+          tok = "";
+        } else {
+          s += tok;
+          tok = "";
+        }
       } 
 
       if (ecount > 0) {

@@ -1,10 +1,12 @@
-if "Francis" == "Frandcis" {
-	print "TRUE"
+%test = "Hdello"
+if "Hello" == %test {
+	print "%test = Hello"
 } else {
-	print "FALSE"
-	if "ff" == "ff" {
-		print "dkfdkfjk"
+
+	if "H" == "dH" {
+		print "Another match found"
 	} else {
-		print "Another else statement"
+		print "The strings don't match"
 	}
-}
+		
+};
