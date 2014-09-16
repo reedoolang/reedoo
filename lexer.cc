@@ -68,7 +68,7 @@ vector<string> lex(string prog) {
 
   for(i = 0; i < prog.size(); ++i) {
     tok += prog[i];
-    
+
       if (tok == " " and state == 0) {
         tok = "";
         if (n != "") {
@@ -172,9 +172,11 @@ vector<string> lex(string prog) {
           if (v != "") {
             lex_tokens.push_back(reserved[3] + ":\"" + v + "\"");
           }
-          if (lex_tokens.back() != "sc" and lex_tokens.back() != "opencb") {
-            lex_tokens.push_back(reserved[2]); 
-          }       
+          if (lex_tokens.size() != 0) {
+            if (lex_tokens.back() != "sc" and lex_tokens.back() != "opencb") {
+              lex_tokens.push_back(reserved[2]); 
+            }   
+          }    
           v = "";
           var_started = 0;
           n = "";
