@@ -71,13 +71,15 @@ vector<string> lex(string prog) {
 
   for(i = 0; i < prog.size(); ++i) {
     tok += prog[i];
-
+    //cout << tok << endl;
       if (tok == " " and state == 0) {
         tok = "";
         if (n != "") {
           //is_expr = 1;
           //lex_tokens.push_back(reserved[7] + ":" + n);
+          condition += reserved[7] + ":" + expr + " ";
         }
+        expr = "";
         n = "";
         if (v != "" and condstarted == false) {
           lex_tokens.push_back(reserved[3] + ":\"" + v + "\"");
@@ -99,6 +101,7 @@ vector<string> lex(string prog) {
         if (expr != "" and is_expr == 1) {
           lex_tokens.push_back(reserved[8] + ":(" + expr + ")");
         } else if (n != "" and is_expr == 0) {
+          condition += reserved[7] + ":" + expr;
           lex_tokens.push_back(reserved[7] + ":" + expr);
         }
         if (v != "") {
@@ -299,12 +302,15 @@ vector<string> lex(string prog) {
       } else if (tok == reserved[0]) {
         lex_tokens.push_back(reserved[0]);
         tok = "";
-      } else if (tok == "\"") {
+      } else if (tok == "\"" or tok == "\"\"") {
 
         if (state == 0) {
           state = 1;
         } else if (state == 1) {
           state = 0;
+          if (s == "") {
+            s = "\"";
+          }
           if (condstarted == false) {
             lex_tokens.push_back(reserved[1] + ":" + s + "\"");
           } else {

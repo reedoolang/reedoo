@@ -70,8 +70,23 @@ void exec_program(string filename) {
 /* The main function, we have to start somewhere. */
 int main(int argc, char* argv[]) {
 
+   for(int i = 0; i < argc; i++) {
+    string arg(argv[i]);
+    
+    if (arg == "-v") { // Example flag -v
+
+    }
+
+   }
+   string arg(argv[1]);
   if (!argv[1]) {
    cout << "Usage: reedoo <filename> [args]" << endl;
+  } else if (arg == "-v") {
+   cout << "Reedoo v0.04 (pre-alpha)" << endl;
+   cout << "The Reedoo Language Interpreter" << endl;
+   cout << "(c) 2014 Francis McNamee. All Rights Reserved." << endl;
+   cout << "www.reedoo.org" << endl;
+   exit(0);
   } else {
    exec_program(argv[1]);
   }
