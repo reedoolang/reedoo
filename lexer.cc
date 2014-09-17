@@ -333,7 +333,7 @@ vector<string> lex(string prog) {
   }
   //cout << lex_tokens.size() << endl;
   for (i = 0; i < lex_tokens.size();i++) {
-    cout << lex_tokens[i] << endl;
+    //cout << lex_tokens[i] << endl;
   }
   return lex_tokens;
 }
