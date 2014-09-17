@@ -49,7 +49,10 @@ bool rdo_is_reserved(string tok) {
 vector<string> lex(string prog) {
   std::vector<std::string> lex_tokens;
   int i = 0;
+  int ifcount = 0;
+  int elsecount = 0;
   int start_ce = 0;
+  int current_if = 0;
   string tok = "";
   string n = "";
   string expr = "";
@@ -183,7 +186,7 @@ vector<string> lex(string prog) {
           expr = "";
           is_expr = 0;
         }
-      } else if (tok == "%") {
+      } else if (tok == "%" and state == 0) {
         if (var_started == 0)
           var_started = 1;
       } else if (var_started == 1) {
@@ -228,6 +231,11 @@ vector<string> lex(string prog) {
           if (condstarted == false) {
             lex_tokens.push_back("and");
           } else {
+            if (v != "") {
+              condition += "variable:\"" + v + "\" ";
+              v = "";
+            }
+            var_started = 0;     
             condition += "and ";
           } 
         tok = "";
@@ -235,16 +243,24 @@ vector<string> lex(string prog) {
           if (condstarted == false) {
             lex_tokens.push_back("or");
           } else {
+            if (v != "") {
+              condition += "variable:\"" + v + "\" ";
+              v = "";
+            }
+            var_started = 0;     
             condition += "or ";
           }
         tok = "";
       } else if (tok == reserved[10]) {
-        lex_tokens.push_back(reserved[10]);
+        ifcount++;
+        lex_tokens.push_back(reserved[10] + ":" + to_string(ifcount));
         condstarted = true;
         condition = "cond:";
         tok = "";
       } else if (tok == reserved[11]) {
-        lex_tokens.push_back(reserved[11]);
+        elsecount = ifcount;
+        lex_tokens.push_back(reserved[11] + ":" + to_string(elsecount));
+        ifcount--;
         tok = "";
       } else if (tok == "{") {
         block_started = true;
@@ -317,7 +333,7 @@ vector<string> lex(string prog) {
   }
   //cout << lex_tokens.size() << endl;
   for (i = 0; i < lex_tokens.size();i++) {
-    //cout << lex_tokens[i] << endl;
+    cout << lex_tokens[i] << endl;
   }
   return lex_tokens;
 }

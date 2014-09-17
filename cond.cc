@@ -42,6 +42,11 @@ bool eval_cond(string cond) {
 	}
 
 	for (int i = 0; i < terms.size(); i++) {
+		//cout << terms[i] << " ";
+	}
+	//cout << endl;
+
+	for (int i = 0; i < terms.size(); i++) {
 
 		if (terms[i] == "or") {
 			and_or_count++;

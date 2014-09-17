@@ -1,12 +1,5 @@
-%test = "Hdello"
-if "Hello" == %test {
-	print "%test = Hello"
-} else {
+%test = "somethingd"
 
-	if "H" == "dH" {
-		print "Another match found"
-	} else {
-		print "The strings don't match"
-	}
-		
-};
+if "" == "" {
+	print "Dfjdfh"
+}

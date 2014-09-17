@@ -28,7 +28,7 @@ reedoo.o: reedoo.cc reedoo.h
 	$(CC)	$(CXXFLAGS) -c	reedoo.cc
 
 clean:
-	rm -rf *o reedoo
+	rm -rf *.o reedoo
 
 cleanw:
 	del *.o
