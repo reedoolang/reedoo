@@ -5,6 +5,8 @@
 # the same line as the if keyword and the condition. Since if statements
 # are statements they can also end with a semi-colon, but that's optional.
 
+%test = 10
+
 if %test == 10 {
 	print "test is 10"
 }
